@@ -1,0 +1,23 @@
+<structure>
+    <name>$deftemplate.name</name>
+    <fields>
+#foreach( $slot in $deftemplate.slots )
+        <field>
+            <name>$slot.name</name>
+            <domain>
+                <type>$slot.type</type>
+                <values>
+#if($slot.isRange())
+                    <from>$slot.values[0]</from>
+                    <to>$slot.values[1]</to>
+#else
+#foreach( $value in $slot.values )
+                    <value>$value</value>
+#end
+#end
+                </values>
+            </domain>
+        </field>
+#end
+</fields>
+</structure>

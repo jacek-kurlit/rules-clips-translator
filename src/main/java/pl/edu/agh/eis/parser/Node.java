@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Node {
     private String key;
-    private List<String> values = new ArrayList<String>();
-    private List<Node> children = new ArrayList<Node>();
+    private List<String> values = new ArrayList<>();
+    private List<Node> children = new ArrayList<>();
+    private Integer valuesSuccession;
 
     public String getKey() {
         return key;
@@ -30,5 +31,13 @@ public class Node {
 
     public void addChild(Node child) {
         children.add(child);
+    }
+
+    public Integer getValuesSuccession() {
+        return valuesSuccession;
+    }
+
+    public void setValuesSuccession(Integer valuesSuccession) {
+        this.valuesSuccession = valuesSuccession;
     }
 }

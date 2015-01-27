@@ -1,0 +1,21 @@
+<modules-management>
+    <name>$defmodule.moduleName</name>
+    <ports>
+#foreach( $portSpecification in $defmodule.portSpecifications )
+        <port>
+            <type>$portSpecification.type</type>
+#if($portSpecification.moduleName)
+            <module-name>$portSpecification.moduleName</module-name>
+#end
+#if($portSpecification.construct)
+            <construct>$portSpecification.construct</construct>
+#end
+            <items>
+#foreach($item in $portSpecification.items)
+                <item>$item</item>
+#end
+            </items>
+        </port>
+#end
+    </ports>
+</modules-management>

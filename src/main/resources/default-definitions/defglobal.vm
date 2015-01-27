@@ -1,0 +1,13 @@
+<global-variables>
+#if($defglobal.moduleName)
+    <module-name>$defglobal.moduleName</module-name>
+#end
+    <assignments>
+#foreach( $assignment in $defglobal.assignments )
+        <assignment>
+            <expression>$assignment.expression</expression>
+            <value>$assignment.value</value>
+        </assignment>
+#end
+    </assignments>
+</global-variables>

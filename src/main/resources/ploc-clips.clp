@@ -1,4 +1,16 @@
-(deftemplate driver (slot class (type INTEGER)(range -1 9) (default 1)) (slot age (type INTEGER) (range 18 120)) (slot licage (type INTEGER) (range 0 102)))
+(defmodule MAIN (export deftemplate ?ALL) (export defglobal ?ALL) (import car deftemplate a b c) (import deftemplate person ?ALL))
+
+(defglobal car ?*x* = 3 ?*y* = ?*x* ?*z* = (+ ?*x* ?*y*)
+   ?*q* = (create$ a b c))
+
+(deffacts initial-facts
+ (driver
+ (class 1)
+ (age 29)
+ (licage 2))
+ (car (capacity 997) (age 12) (historic false) (seats 5) (technical true) (accidents 0))
+ (insurance (continue true) (cars 1) (payment single) (otherins false) (certificate true))
+)
 
 (deftemplate car
   (slot capacity
@@ -30,6 +42,8 @@
   )
 )
 
+(deftemplate driver (slot class (type INTEGER) (range -1 9) (default 1)) (slot age (type INTEGER) (range 18 120)) (slot licage (type INTEGER) (range 0 102)))
+
 (deftemplate insurance
   (slot continue
     (type SYMBOL)
@@ -58,6 +72,20 @@
   )
 )
 
+(defmodule MAIN
+  (export deftemplate ?ALL)
+)
+(defmodule bonus-malus
+  (import MAIN deftemplate ?ALL)
+)
+(defmodule base-charge
+  (import MAIN deftemplate ?ALL)
+)
+
+(defmodule base-charge-modifiers
+  (import MAIN deftemplate ?ALL)
+)
+
 (deftemplate base
    (slot value
      (type NUMBER)
@@ -72,31 +100,6 @@
   (slot value
     (type NUMBER)
   )
-)
-
-
-(deffacts initial-facts
- (driver
- (class 1)
- (age 29)
- (licage 2))
- (car (capacity 997) (age 12) (historic false) (seats 5) (technical true) (accidents 0))
- (insurance (continue true) (cars 1) (payment single) (otherins false) (certificate true))
-)
-
-
-(defmodule MAIN
-  (export deftemplate ?ALL)
-)
-(defmodule bonus-malus
-  (import MAIN deftemplate ?ALL)
-)
-(defmodule base-charge
-  (import MAIN deftemplate ?ALL)
-)
-
-(defmodule base-charge-modifiers
-  (import MAIN deftemplate ?ALL)
 )
 
 (defrule bonus-malus::bonus-malus0

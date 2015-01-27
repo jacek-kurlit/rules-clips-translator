@@ -10,9 +10,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class Start {
-    private static final String DEFAULT_DEFINITION_FILE = "default_template.vm";
+    private static final String DEFAULT_DEFINITION_DIRECTORY = "default-definitions";
 
     private static ClipsTranslator clipsTranslator = new ClipsTranslator();
 
@@ -27,18 +28,13 @@ public class Start {
         } catch (CmdLineException e) {
             parser.printUsage(System.out);
             System.out.println(e.getMessage());
-            System.exit(0);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            System.exit(0);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Could not perform translation. See output for more details.");
             System.out.println(e.getMessage());
         }
     }
 
-    private static Settings validateFilesExist(Arguments parsedArguments) throws FileNotFoundException {
+    private static Settings validateFilesExist(Arguments parsedArguments) throws FileNotFoundException, IllegalAccessException {
         Settings settings = new Settings();
 
         setUpInputFile(settings, parsedArguments.getInput());
@@ -61,13 +57,14 @@ public class Start {
         }
     }
 
-    private static void setUpDefinitionFile(Settings settings, File definition) throws FileNotFoundException {
+    private static void setUpDefinitionFile(Settings settings, File definition) throws FileNotFoundException, IllegalAccessException {
         checkExistence(definition, "Definition file does not exist!");
+        checkDefinitionIsDirectory(settings.getDefinitionInput());
 
         if(definition != null) {
             settings.setDefinitionInput(definition);
         } else {
-            settings.setDefinitionInput(getDefaultDefinitionFile());
+            settings.setDefinitionInput(getDefaultDefinitionDirectory());
         }
     }
 
@@ -77,8 +74,19 @@ public class Start {
         }
     }
 
-    private static File getDefaultDefinitionFile() {
-        return new File(Start.class.getClassLoader().getResource(DEFAULT_DEFINITION_FILE).getPath());
+    private static void checkDefinitionIsDirectory(File definition) throws IllegalAccessException {
+        if(definition != null && !definition.isDirectory()) {
+            throw new IllegalAccessException("Definition must be directory!");
+        }
+    }
+
+    private static File getDefaultDefinitionDirectory() {
+        URL resource = Start.class.getClassLoader().getResource(DEFAULT_DEFINITION_DIRECTORY);
+        if(resource != null) {
+            return  new File(resource.getPath());
+        }
+
+        throw new RuntimeException("Could not find default definition directory!");
     }
 
 }

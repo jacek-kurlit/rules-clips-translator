@@ -1,0 +1,18 @@
+<knowledge-base>
+    <name>$deffacts.name</name>
+    <facts>
+    #foreach($fact in $deffacts.facts )
+    <fact>
+            <type>$fact.type</type>
+            <fields>
+#foreach( $field in $fact.fields )
+                <field>
+                    <name>$field.name</name>
+                    <value>$field.value</value>
+                </field>
+#end
+            </fields>
+        </fact>
+    #end
+</facts>
+</knowledge-base>
