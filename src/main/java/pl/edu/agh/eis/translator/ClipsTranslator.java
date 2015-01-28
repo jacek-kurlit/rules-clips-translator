@@ -10,9 +10,14 @@ import pl.edu.agh.eis.parser.ClipsParser;
 import pl.edu.agh.eis.parser.Node;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ClipsTranslator {
     private ClipsParser clipsParser = new ClipsParser();
@@ -21,19 +26,7 @@ public class ClipsTranslator {
         List<Node> parentNodes = clipsParser.parseFile(settings.getInput());
         List<Construct> constructs = convertToConstruct(parentNodes);
 
-        initVelocity(settings);
-
-        VelocityContext context = new VelocityContext();
-
-        context.put(Const.DEFMODULE, constructs.get(0));
-
-        Template template = Velocity.getTemplate("defmodule.vm");
-        /* lets render a template */
-
-        StringWriter w = new StringWriter();
-
-        template.merge(context, w);
-        System.out.println( w );
+        buildXmlOutput(constructs, settings);
     }
 
     private void initVelocity(Settings settings) {
@@ -42,6 +35,50 @@ public class ClipsTranslator {
     }
 
     private List<Construct> convertToConstruct(List<Node> parentNodes) {
-        return Arrays.asList(ConstructBuilder.convertToConstruct(parentNodes.get(0)));
+        return parentNodes.stream().map(ConstructBuilder::convertToConstruct).filter(construct -> construct != null).collect(Collectors.toList());
+    }
+
+    private void buildXmlOutput(List<Construct> constructs, Settings settings) {
+        initVelocity(settings);
+
+        String deftemplateOutput = createDeftemplateOutput(constructs);
+        String output = createFinalOutput(deftemplateOutput);
+
+        printOutput(output, settings);
+    }
+
+    private String createDeftemplateOutput(final List<Construct> constructs) {
+        List<Construct> types = constructs.stream().filter(construct -> construct.getConstructName().equals(Const.DEFTEMPLATE)).collect(Collectors.toList());
+
+        VelocityContext context = new VelocityContext();
+        context.put("types", types);
+
+        Template template = Velocity.getTemplate(Const.DEFTEMPLATE + ".vm");
+
+        StringWriter w = new StringWriter();
+
+        template.merge(context, w);
+
+        return w.toString();
+    }
+
+    private String createFinalOutput(String deftemplateOutput) {
+        VelocityContext context = new VelocityContext();
+        context.put("deftemplateOutput", deftemplateOutput);
+
+        Template template = Velocity.getTemplate("finaloutput.vm");
+
+        StringWriter w = new StringWriter();
+
+        template.merge(context, w);
+
+        return w.toString();
+    }
+
+    private void printOutput(String output, Settings settings) {
+        PrintWriter out = new PrintWriter(settings.getOutput());
+
+        out.write(output);
+        out.close();
     }
 }

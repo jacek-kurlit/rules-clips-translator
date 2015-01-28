@@ -14,7 +14,7 @@ public class DefmoduleConverter implements  Converter {
     @Override
     public Construct convertParentNode(Node parentNode) {
         DefmoduleConstruct defmoduleConstruct = new DefmoduleConstruct();
-        defmoduleConstruct.setModuleName(parentNode.getValues().get(0));
+        defmoduleConstruct.setName(parentNode.getValues().get(0));
 
         for(Node child : parentNode.getChildren()) {
             defmoduleConstruct.addPortSpecification(convertToPortSpecification(child, defmoduleConstruct.new PortSpecification()));

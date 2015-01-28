@@ -1,23 +1,30 @@
-<structure>
-    <name>$deftemplate.name</name>
-    <fields>
+#if(!$types.isEmpty())
+<types>
+#foreach($deftemplate in $types)
+    <type id="$deftemplate.id" name="$deftemplate.name">
 #foreach( $slot in $deftemplate.slots )
-        <field>
-            <name>$slot.name</name>
+        <attribute id="$slot.id" name="$slot.id" basetype="$slot.baseType" type="$slot.type">
+#if(!$slot.values.isEmpty() || !$slot.ranges.isEmpty())
             <domain>
-                <type>$slot.type</type>
-                <values>
-#if($slot.isRange())
-                    <from>$slot.values[0]</from>
-                    <to>$slot.values[1]</to>
-#else
-#foreach( $value in $slot.values )
-                    <value>$value</value>
+#if(!$slot.values.isEmpty())
+#foreach($value in $slot.values)
+                    <item>$value</item>
 #end
 #end
-                </values>
+#if(!$slot.ranges.isEmpty())
+#foreach($range in $slot.ranges)
+                    <range>
+                        <from>$range.from</from>
+                        <to>$range.to</to>
+                    </range>
+#end
+#end
             </domain>
-        </field>
 #end
-</fields>
-</structure>
+
+        </attribute>
+#end
+    </type>
+#end
+</types>
+#end

@@ -1,8 +1,3 @@
-(defmodule MAIN (export deftemplate ?ALL) (export defglobal ?ALL) (import car deftemplate a b c) (import deftemplate person ?ALL))
-
-(defglobal car ?*x* = 3 ?*y* = ?*x* ?*z* = (+ ?*x* ?*y*)
-   ?*q* = (create$ a b c))
-
 (deffacts initial-facts
  (driver
  (class 1)
@@ -11,6 +6,11 @@
  (car (capacity 997) (age 12) (historic false) (seats 5) (technical true) (accidents 0))
  (insurance (continue true) (cars 1) (payment single) (otherins false) (certificate true))
 )
+
+(defmodule MAIN (export deftemplate ?ALL) (export defglobal ?ALL) (import car deftemplate a b c) (import deftemplate person ?ALL))
+
+(defglobal car ?*x* = 3 ?*y* = ?*x* ?*z* = (+ ?*x* ?*y*)
+   ?*q* = (create$ a b c))
 
 (deftemplate car
   (slot capacity

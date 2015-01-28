@@ -18,27 +18,26 @@ public class DeftemplateConverter implements Converter {
         deftemplateContruct.setName(name);
 
         for(Node child : parentNode.getChildren()) {
-            deftemplateContruct.getSlots().add(convertToSlot(child, deftemplateContruct.new Slot()));
+            convertToSlot(child, deftemplateContruct);
         }
 
         return deftemplateContruct;
     }
 
-    private DeftemplateContruct.Slot convertToSlot(Node child, DeftemplateContruct.Slot slot) {
+    private void convertToSlot(Node child, DeftemplateContruct deftemplateContruct) {
+        DeftemplateContruct.Slot slot = deftemplateContruct.new Slot();
         final String name = child.getValues().get(0);
         slot.setName(name);
-
+        slot.setId(deftemplateContruct.getName().toLowerCase() + "_" + name.toLowerCase());
         child.getChildren().forEach(new Consumer<Node>() {
 
             @Override
             public void accept(Node node) {
                 final String key = node.getKey();
                 if(TYPE.equals(key)) {
-                  slot.setType(node.getValues().get(0));
+                  slot.setBaseType(convertBaseType(node.getValues().get(0)));
                 } else if(RANGE.equals(key)) {
-                    slot.getValues().add(node.getValues().get(0));
-                    slot.getValues().add(node.getValues().get(1));
-                    slot.setRange(true);
+                    slot.addRange(node.getValues().get(0), node.getValues().get(1));
                 } else if (DEFAULT.equals(key)) {
                     slot.setDef(node.getValues().get(0));
                 } else if(ALLOWED_SYMBOLS.equals(key)) {
@@ -49,6 +48,22 @@ public class DeftemplateConverter implements Converter {
             }
         });
 
-        return slot;
+        deftemplateContruct.getSlots().add(slot);
+    }
+
+    private String convertBaseType(String baseType) {
+        if(baseType.equalsIgnoreCase("integer")) {
+            return "Integer";
+        }
+
+        if(baseType.equalsIgnoreCase("float")) {
+            return "Decimal";
+        }
+
+        if(baseType.equalsIgnoreCase("number")) {
+            return "Decimal";
+        }
+
+        return "String";
     }
 }

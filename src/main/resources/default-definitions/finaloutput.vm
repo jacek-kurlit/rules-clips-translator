@@ -1,0 +1,6 @@
+<model>
+#if($deftemplateOutput)
+    $deftemplateOutput
+#end
+
+</model>

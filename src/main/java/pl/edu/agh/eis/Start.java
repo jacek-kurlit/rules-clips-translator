@@ -29,6 +29,7 @@ public class Start {
             parser.printUsage(System.out);
             System.out.println(e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Could not perform translation. See output for more details.");
             System.out.println(e.getMessage());
         }

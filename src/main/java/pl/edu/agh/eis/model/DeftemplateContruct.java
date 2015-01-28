@@ -1,12 +1,14 @@
 package pl.edu.agh.eis.model;
 
 import pl.edu.agh.eis.converter.Const;
+import pl.edu.agh.xsd.Settype;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeftemplateContruct extends Construct {
     private String name;
+    private String id;
     private List<Slot> slots = new ArrayList<>();
 
     public DeftemplateContruct() {
@@ -15,17 +17,20 @@ public class DeftemplateContruct extends Construct {
 
     public class Slot {
         private String name;
-        private String type;
-        private boolean isRange = false;
+        private String id;
+        private String baseType;
+        private String type = "simple";
         private List<String> values = new ArrayList<>();
+        private List<Range> ranges = new ArrayList<>();
         private String def;
 
-        public String getType() {
-            return type;
+
+        public String getBaseType() {
+            return baseType;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setBaseType(String baseType) {
+            this.baseType = baseType;
         }
 
         public List<String> getValues() {
@@ -48,12 +53,42 @@ public class DeftemplateContruct extends Construct {
             this.name = name;
         }
 
-        public boolean isRange() {
-            return isRange;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public void setRange(boolean isRange) {
-            this.isRange = isRange;
+        public String getId() {
+            return id;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public List<Range> getRanges() {
+            return ranges;
+        }
+
+        public void addRange(String from , String to) {
+            ranges.add(new Range(from, to));
+        }
+    }
+
+    public class Range {
+        private String from;
+        private String to;
+
+        public Range(String from, String to) {
+            this.from = from;
+            this.to = to;
+        }
+
+        public String getFrom() {
+            return from;
+        }
+
+        public String getTo() {
+            return to;
         }
     }
 
@@ -62,10 +97,15 @@ public class DeftemplateContruct extends Construct {
     }
 
     public void setName(String name) {
+        this.id = name.toLowerCase();
         this.name = name;
     }
 
     public List<Slot> getSlots() {
         return slots;
+    }
+
+    public String getId() {
+        return id;
     }
 }

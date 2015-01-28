@@ -1,14 +1,21 @@
 package pl.edu.agh.eis.model;
 
 import pl.edu.agh.eis.converter.Const;
+import pl.edu.agh.xsd.Moduletype;
+import pl.edu.agh.xsd.Submoduletype;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefmoduleConstruct extends Construct {
 
-    private String moduleName;
+    private String name;
+    private String id;
     private List<PortSpecification> portSpecifications = new ArrayList<>();
+
+    protected Submoduletype ordmodule;
+    protected Submoduletype loamodule;
+    protected List<Moduletype.Xormodule> xormodule;
 
     public DefmoduleConstruct() {
         super(Const.DEFMODULE);
@@ -53,12 +60,12 @@ public class DefmoduleConstruct extends Construct {
         }
     }
 
-    public String getModuleName() {
-        return moduleName;
+    public String getName() {
+        return name;
     }
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<PortSpecification> getPortSpecifications() {

@@ -10,7 +10,7 @@ public class DeffactsConverter implements Converter {
 
     @Override
     public Construct convertParentNode(Node parentNode) {
-        DeffactsConstruct deffactsConstruct = new DeffactsConstruct();
+        final DeffactsConstruct deffactsConstruct = new DeffactsConstruct();
         final String name = parentNode.getValues().get(0);
         deffactsConstruct.setName(name);
 
