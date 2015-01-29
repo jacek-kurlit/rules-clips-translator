@@ -19,11 +19,13 @@ public class DefglobalConverter implements Converter {
         int startIndex = 0;
 
         DefglobalConstruct defglobalConstruct = new DefglobalConstruct();
-
+        String typeref = "none";
         if(hasModuleName(values.size())) {
-            defglobalConstruct.setModuleName(values.get(startIndex));
+            typeref = values.get(startIndex);
             startIndex++;
         }
+
+        defglobalConstruct.setTyperef(typeref);
 
         for(int i = startIndex; i < values.size();) {
 
@@ -39,7 +41,7 @@ public class DefglobalConverter implements Converter {
             }
 
 
-            defglobalConstruct.addAssignment(expression, value);
+            defglobalConstruct.addItem(expression + "=" + value);
         }
 
         return defglobalConstruct;

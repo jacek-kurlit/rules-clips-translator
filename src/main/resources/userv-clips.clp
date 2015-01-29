@@ -1,240 +1,232 @@
-; ------------------------------------------------------------------------------------------------------
-; Globals
-; ------------------------------------------------------------------------------------------------------
-
 (defglobal ?*year* = 2013)
 
-; ------------------------------------------------------------------------------------------------------
-; Fact types
-; ------------------------------------------------------------------------------------------------------
-
 (deftemplate Client
-  (slot Name		; Nazwa klienta (ID)
+  (slot Name
     (type STRING)
   )
-  (slot Age		; Wiek klienta
+  (slot Age
     (type INTEGER)
     (range 0 120)
   )
-  (slot Gender		; Plec klienta
+  (slot Gender
     (type SYMBOL)
     (allowed-symbols male female)
   )
-  (slot MaritalStatus	; Stan cywilny
+  (slot MaritalStatus
     (type SYMBOL)
     (allowed-symbols single married)
   )
-  (slot UsState		; Kod stanu US
+  (slot UsState
     (type SYMBOL)
   )
-  (multislot Type	; Typ klienta
+  (multislot Type
     (type SYMBOL)
     (allowed-symbols preffered elite longTerm)
   )
-  (slot DuI		; (Driving under Influence) Jazda pod wplywem
+  (slot DuI
     (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot NoA		; (Number of Accidents) Ilosc wypadkow w ktorych bral udzial
+  (slot NoA
     (type INTEGER)
     (range 0 10000)
   )
-  (slot NoMV		; (Number of Moving Violations) Ilosc wykroczen w przeciagu ostatnich dwoch lat
+  (slot NoMV
     (type INTEGER)
     (range 0 10000)
   )
-  (slot SoTC		; (Source of Training Certification) Zrodlo szkolenia
+  (slot SoTC
     (type SYMBOL)
     (allowed-symbols none school licensedDriver seniorRefresherCourse)
   )
 )
 
 (deftemplate ClientFacts
-  (slot Name		; Nazwa klienta
+  (slot Name
     (type STRING)
   )
-  (slot Type		; Typ kierowcy: mlody, typowy, doswiadczony
+  (slot Type
     (type SYMBOL)
     (allowed-symbols young typical senior)
     (default typical)
   )
-  (slot IsHRD		; (High Risk Driver) Okresla czy jest to kierowca wysokiego ryzyka
-    (type SYMBOL)	
+  (slot IsHRD
+    (type SYMBOL)
     (allowed-symbols false true)
     (default false)
   )
-  (slot Eligible	; Okresla czy kierowca sie kwalifikuje
-    (type SYMBOL)	
+  (slot Eligible
+    (type SYMBOL)
     (allowed-symbols false true)
     (default false)
   )
-  (slot HasTC		; (Training Certification) Okresla czy kierowca ma certyfikat szkolenia
-    (type SYMBOL)	
+  (slot HasTC
+    (type SYMBOL)
     (allowed-symbols false true)
     (default false)
   )
 )
 
 (deftemplate Car
-  (slot Owner		; Nazwa wlasciciela samochodu
+  (slot Owner
     (type STRING)
   )
-  (slot Name		; Nazwa modelu samochodu
+  (slot Name
     (type STRING)
   )
-  (slot Convertible	; Okresla czy samochod jest kabrioletem
+  (slot Convertible
     (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot Year		; Rok produkcji samochodu
+  (slot Year
     (type INTEGER)
     (range 1900 2100)
   )
-  (slot Price		; Wartosc samochodu
+  (slot Price
     (type NUMBER)
   )
-  (slot HasAlarm	; Okresla czy samochod posiada alarm
+  (slot HasAlarm
     (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot HasRollBar	; Okresla czy samochod posiada klatke - zabezpieczenie dla kabrioletow
-    (type SYMBOL)	
+  (slot HasRollBar
+    (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot IsOnHTPA	; (High Theft Portability Auto) Okresla czy jest na liscie najczesciej krzdzionych modeli
-    (type SYMBOL)	
+  (slot IsOnHTPA
+    (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot Style		; Okresla rodzaj nadwozia
+  (slot Style
     (type SYMBOL)
     (allowed-symbols compact sedan luxury)
   )
-  (multislot AirBags	; Lista poduszek powietrznych zainstalowanych w samochodzie
-    (type SYMBOL)	
+  (multislot AirBags
+    (type SYMBOL)
     (allowed-symbols driver passenger side)
   )
 )
 
 (deftemplate CarFacts
-  (slot Owner		; Nazwa wlasciciela samochodu
+  (slot Owner
     (type STRING)
   )
-  (slot Name		; Nazwa modelu samochodu
+  (slot Name
     (type STRING)
   )
-  (slot BasePremium	; Okresla wielkosc podstawowej skladki za samochod
+  (slot BasePremium
     (type NUMBER)
   )
-  (slot Eligible	; Okresla czy samochod sie kfalifikuje do ubezpieczenia
+  (slot Eligible
     (type SYMBOL)
     (allowed-symbols notEligible provisional eligible)
     (default eligible)
   )
-  (slot POIR		; (Potencial Occupant Injury Rating) Okresla ryzyko poniesienia szkody przez pasazerow
+  (slot POIR
     (type SYMBOL)
     (allowed-symbols low moderate high extremelyHigh)
     (default extremelyHigh)
   )
-  (slot PTR		; (Potencial Theft Rating) Okresla ryzyko skradzenia samochodu
+  (slot PTR
     (type SYMBOL)
     (allowed-symbols low moderate high)
   )
 )
 
 (deftemplate EligibilityScore
-  (slot Name			; Nazwa wlasciciela
+  (slot Name
     (type STRING)
   )
-  (slot DisplayName		; Nazwa wyswietlana wlasciciela (i samochodu)
+  (slot DisplayName
     (type STRING)
   )
-  (slot Score			; Wartosc punktowa
+  (slot Score
     (type NUMBER)
   )
-  (slot Reason			; Okresla powod przynania danej wartosci punktow
+  (slot Reason
     (type STRING)
   )
-  (slot Type			; Okresla czy jest to pojedyncza wartosc czy ich suma
+  (slot Type
     (type SYMBOL)
     (allowed-symbols partial total)
   )
 )
 
 (deftemplate EligibilityDecision
-  (slot Name			; Nazwa wlasciciela
+  (slot Name
     (type STRING)
   )
-  (slot Decision		; Decyzja czy kierowca nadaje sie do ubezpieczenia
+  (slot Decision
     (type SYMBOL)
     (allowed-symbols notEligible review eligible)
   )
 )
 
 (deftemplate CarPremium
-  (slot Owner			; Nazwa wlasciciela samochodu
+  (slot Owner
     (type STRING)
   )
-  (slot Name			; Nazwa modelu samochodu
+  (slot Name
     (type STRING)
   )
-  (slot Premium			; Wartosc zmiany skladki
+  (slot Premium
     (type NUMBER)
   )
-  (slot Reason			; Powod zmiany skladki
+  (slot Reason
     (type STRING)
   )
-  (slot Type			; Okresla czy jest to pojedyncza zmiana czy ich suma
+  (slot Type
     (type SYMBOL)
     (allowed-symbols partial total)
   )
 )
 
 (deftemplate DriverPremium
-  (slot Name			; Nazwa klienta
+  (slot Name
     (type STRING)
   )
-  (slot Premium			; Wartosc zmiany skladki
+  (slot Premium
     (type NUMBER)
   )
-  (slot Reason			; Powod zmiany skladki
+  (slot Reason
     (type STRING)
   )
-  (slot Type			; Okresla czy jest to pojedyncza zmiana czy ich suma
+  (slot Type
     (type SYMBOL)
     (allowed-symbols partial total)
   )
 )
 
 (deftemplate CarDiscount
-  (slot Owner			; Nazwa wlasciciela samochodu
+  (slot Owner
     (type STRING)
   )
-  (slot Name			; Nazwa modelu samochodu
+  (slot Name
     (type STRING)
   )
-  (slot Discount		; Procentowa wartosc zmniejszenia skladki za samochod
+  (slot Discount
     (type NUMBER)
   )
-  (slot Reason			; Powod zmiany skladki
+  (slot Reason
     (type STRING)
   )
-  (slot Type			; Okresla czy jest to pojedyncza zmiana czy ich suma
+  (slot Type
     (type SYMBOL)
     (allowed-symbols partial total)
   )
 )
 
 (deftemplate MarketSegmentDiscount
-  (slot Name			; Nazwa klienta
+  (slot Name
     (type STRING)
   )
-  (slot Discount		; Procentowa wartosc zmniejszenia skladki za samochod
+  (slot Discount
     (type NUMBER)
   )
-  (slot Reason			; Powod zmiany skladki
+  (slot Reason
     (type STRING)
   )
-  (slot Type			; Okresla czy jest to pojedyncza zmiana czy ich suma
+  (slot Type
     (type SYMBOL)
     (allowed-symbols partial total)
   )
@@ -244,38 +236,31 @@
   (slot Client
     (type STRING)
   )
-  (slot UninsuredDriver		; Czy ubezpieczenie obejmuje nieubezpieczonego kierowce
+  (slot UninsuredDriver
     (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot MedicalCoverage		; Czy ubezpieczenie obejmuje ubezpieczenie zdrowotne
+  (slot MedicalCoverage
     (type SYMBOL)
     (allowed-symbols false true)
   )
-  (slot Premium			; Finalna wartosc ubezpieczenia
+  (slot Premium
     (type NUMBER)
     (default 0)
   )
 )
 
-
-; ------------------------------------------------------------------------------------------------------
-; Defining facts
-; ------------------------------------------------------------------------------------------------------
-
 (deffacts initial-facts
-;  (Client (Name "KKR") (Age 19) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 2) (NoMV 2) (SoTC none))
-;  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
-;  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
+  (Client (Name "KKR") (Age 19) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 2) (NoMV 2) (SoTC none))
+  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
+  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
 
   (Client (Name "KKR") (Age 29) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 0) (NoMV 2) (SoTC none))
   (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
   (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
 )
 
-; ------------------------------------------------------------------------------------------------------
-; Defining modules
-; ------------------------------------------------------------------------------------------------------
+
 (defmodule MAIN (export deftemplate ?ALL) (export defglobal ?ALL))
 (defmodule automobile-eligibility-potential-theft (import MAIN deftemplate ?ALL))
 (defmodule automobile-eligibility-potential-occupant-injury (import MAIN deftemplate ?ALL))
@@ -290,11 +275,6 @@
 (defmodule driver-premiums (import MAIN deftemplate ?ALL))
 (defmodule car-discounts (import MAIN deftemplate ?ALL))
 (defmodule market-segment-discounts (import MAIN deftemplate ?ALL))
-; ------------------------------------------------------------------------------------------------------
-; Rules
-; ------------------------------------------------------------------------------------------------------
-
-; ---------  automobile-eligibility-potential-theft ---------
 
 (defrule automobile-eligibility-potential-theft::initial
   (Car (Owner ?Owner) (Name ?Name))
@@ -348,7 +328,6 @@
   (pop-focus)
 )
 
-; ---------  automobile-eligibility-potential-occupant-injury ---------
 
 (defrule automobile-eligibility-potential-occupant-injury::POIR-exhigh1
   (Car (Owner ?Owner) (Name ?Name) (AirBags $?AirBags & :(eq (length$ ?AirBags) 0)))
@@ -359,8 +338,6 @@
   (pop-focus)
 )
 
-; This rule must have increased their priority because it depends on different set of facts than other rules in this group.
-; Hence, it can be possible that other rule fire before this rule and the value of POIR will be incorrect
 (defrule automobile-eligibility-potential-occupant-injury::POIR-exhigh2
 (declare (salience 1))
   (Car (Owner ?Owner) (Name ?Name) (Convertible true) (HasRollBar false))
@@ -398,7 +375,6 @@
   (pop-focus)
 )
 
-; ---------  automobile-eligibility-calculation ---------
 
 (defrule automobile-eligibility-calculation::not-eligible
   (declare (salience 2))
@@ -435,8 +411,6 @@
   (pop-focus)
 )
 
-; ---------  driver-eligibility-driver-age ---------
-
 (defrule driver-eligibility-driver-age::initial
   (Client (Name ?Name))
   (not (ClientFacts (Name ?Name)))
@@ -470,8 +444,6 @@
   (printout t "driver-eligibility-driver-age::senior-driver: Setting " ?Name " driver as SENIOR DRIVER" crlf)
   (pop-focus)
 )
-
-; ---------  driver-eligibility-driver-certification ---------
 
 (defrule driver-eligibility-driver-certification::has-certificate1
   (Client (Name ?Name) (SoTC school))
@@ -509,8 +481,6 @@
   (pop-focus)
 )
 
-; ---------  driver-eligibility-driver-records ---------
-
 (defrule driver-eligibility-driver-records::high-risk-driver1
   (Client (Name ?Name) (DuI true))
   ?ClientFacts <- (ClientFacts (Name ?Name))
@@ -537,8 +507,6 @@
   (printout t "driver-eligibility-driver-records::high-risk-driver3: The driver " ?Name " is HIGH RISK DRIVER" crlf)
   (pop-focus)
 )
-
-; ---------  driver-eligibility-calculation ---------
 
 (defrule driver-eligibility-calculation::eligible1
   ?ClientFacts <- (ClientFacts (Name ?Name) (Type young) (HasTC true))
@@ -572,7 +540,6 @@
   (pop-focus)
 )
 
-; ---------  eligibility-scoring ---------
 
 (defrule eligibility-scoring::car-eligibility1
   (CarFacts (Owner ?Owner) (Name ?Name) (Eligible notEligible))
@@ -628,7 +595,6 @@
   (assert (EligibilityScore (Name ?Name) (DisplayName ?Name) (Score -100) (Reason "The driver is elite client") (Type partial)))
 )
 
-; creating an empty element for sum of eligibility scores for a given person
 (defrule eligibility-scoring::create-initial-sum-of-scoring
   (EligibilityScore (Name ?Name) (Type partial))
   (not (EligibilityScore (Name ?Name) (Type total)))
@@ -637,7 +603,6 @@
   (printout t "eligibility-scoring::create-initial-sum-of-scoring: Adding initial element for eligibility sum for client " ?Name crlf)
 )
 
-; summing eligibility scores and for display purposes
 (defrule eligibility-scoring::sum-and-display-scoring
   ?EligibilityScore <- (EligibilityScore (Name ?Name) (DisplayName ?DisplayName) (Score ?Score) (Reason ?Reason) (Type partial))
   ?ToalEligibilityScores <- (EligibilityScore (Name ?Name) (Score ?TotalScores) (Type total))
@@ -647,7 +612,6 @@
   (printout t "eligibility-scoring::sum-and-display-scoring: Eligibility Score for " ?DisplayName ": " ?Score " Reason: " ?Reason crlf)
 )
 
-; assert a new fact of the eligibility decision and displays sum of scores
 (defrule eligibility-scoring::summary
 (declare (salience -1))
   (EligibilityScore (Name ?Name) (Score ?TotalScore) (Type total))
@@ -657,7 +621,6 @@
   (printout t "eligibility-scoring::summary: ########### The TOTAL eligibility scores for " ?Name " is " ?TotalScore " ###########" crlf)
 )
 
-; making decision
 (defrule  eligibility-scoring::decision-eligible1
   (EligibilityScore (Name ?Name) (Score ?TotalScore & :(< ?TotalScore 100)) (Type total))
   ?Decision <- (EligibilityDecision (Name ?Name))
@@ -696,8 +659,6 @@
   (pop-focus)
 )
 
-; --------- car-base-premiums ---------
-
 (defrule car-base-premiums::base-premium-car-compact
   (EligibilityDecision (Name ?Driver) (Decision eligible))
   (Car (Owner ?Driver) (Name ?CarName) (Style compact))
@@ -727,8 +688,6 @@
   (printout t "car-base-premiums::base-premium-car-luxury: Setting BASE PREMIUM for " ?Driver "'s " ?CarName " to 500$" crlf)
   (pop-focus)
 )
-
-; --------- car-premiums ---------
 
 (defrule car-premiums::increase-new-car
   (EligibilityDecision (Name ?Driver) (Decision eligible))
@@ -788,7 +747,6 @@
   (assert (CarPremium (Owner ?Driver) (Name ?Name) (Premium 500) (Reason "The potencial theft rating is high") (Type partial)))
 )
 
-; creating initial object for sum of car premiums
 (defrule car-premiums::create-initial-sum-of-car-premiums
   (CarPremium (Owner ?Driver) (Name ?Name) (Type partial))
   (not (CarPremium (Owner ?Driver) (Name ?Name) (Type total)))
@@ -797,7 +755,6 @@
   (printout t "car-premiums::create-initial-sum-of-car-premiums: Adding initial element for sum of car premiums for " ?Driver "'s " ?Name crlf)
 )
 
-; summing car premiums and for display purposes
 (defrule car-premiums::sum-and-display-car-premiums
   ?CarPremium <- (CarPremium (Owner ?Driver) (Name ?CarName) (Premium ?Premium) (Reason ?Reason) (Type partial))
   ?ToalCarPremiums <- (CarPremium (Owner ?Driver) (Name ?CarName) (Premium ?TotalPremium) (Type total))
@@ -807,7 +764,6 @@
   (printout t "car-premiums::sum-and-display-car-premiums: Car Premium for " ?Driver "'s " ?CarName ": " ?Premium "$ Reason: " ?Reason crlf)
 )
 
-; --------- driver-premiums ---------
 
 (defrule driver-premiums::increase-young-and-married-driver1
   (EligibilityDecision (Name ?Name) (Decision eligible))
@@ -871,7 +827,6 @@
   (assert (DriverPremium (Name ?Name) (Premium (* ?NoA 150)) (Reason (str-cat "Driver has " ?NoA " accidents" )) (Type partial)))
 )
 
-; creating initial object for sum of driver premiums
 (defrule driver-premiums::create-initial-sum-of-driver-premiums
   (DriverPremium (Name ?Name) (Type partial))
   (not (DriverPremium (Name ?Name) (Type total)))
@@ -880,7 +835,6 @@
   (printout t "driver-premiums::create-initial-sum-of-driver-premiums: Adding initial element for sum of driver premiums for " ?Name crlf)
 )
 
-; summing driver premiums and for display purposes
 (defrule driver-premiums::sum-and-display-driver-premiums
   ?DriverPremium <- (DriverPremium (Name ?Name) (Premium ?Premium) (Reason ?Reason) (Type partial))
   ?ToalDriverPremiums <- (DriverPremium (Name ?Name) (Premium ?TotalPremium) (Type total))
@@ -889,8 +843,6 @@
   (retract ?DriverPremium)
   (printout t "driver-premiums::sum-and-display-driver-premiums: Driver Premium for " ?Name ": " ?Premium "$ Reason: " ?Reason crlf)
 )
-
-; --------- car-discounts ---------
 
 (defrule car-discounts::decrease-only-driver-airbag
   (EligibilityDecision (Name ?Name) (Decision eligible))
@@ -921,7 +873,6 @@
   (assert (CarDiscount (Owner ?Name) (Name ?CarName) (Discount 10) (Reason "Car has high rating of potential theft but is has an alarm") (Type partial)))
 )
 
-; creating initial object for sum of car discounts
 (defrule car-discounts::create-initial-sum-of-car-discounts
   (CarDiscount (Owner ?Driver) (Name ?CarName) (Type partial))
   (not (CarDiscount (Owner ?Driver) (Name ?CarName) (Type total)))
@@ -929,18 +880,6 @@
   (assert (CarDiscount (Owner ?Driver) (Name ?CarName) (Discount 0) (Type total)))
   (printout t "car-discounts::create-initial-sum-of-car-discounts: Adding initial element for sum of car dicounts for " ?Driver "'s " ?CarName crlf)
 )
-
-; summing car discounts and for display purposes
-(defrule car-discounts::sum-and-display-car-discounts
-  ?CarDiscount <- (CarDiscount (Owner ?Driver) (Name ?CarName) (Discount ?Discount) (Reason ?Reason) (Type partial))
-  ?ToalCarDiscount <- (CarDiscount(Owner ?Driver) (Name ?CarName) (Discount ?TotalDiscount) (Type total))
-=>
-  (modify ?ToalCarDiscount (Discount (+ ?TotalDiscount ?Discount)))
-  (retract ?CarDiscount)
-  (printout t "car-discounts::sum-and-display-car-discounts: Car Discount for " ?Driver "'s " ?CarName ": " ?Discount "$ Reason: " ?Reason crlf)
-)
-
-; --------- market-segment-discounts ---------
 
 (defrule market-segment-discounts::preffered-client
   (EligibilityDecision (Name ?Name) (Decision eligible))
@@ -956,7 +895,6 @@
   (assert (MarketSegmentDiscount (Name ?Name) (Discount 500) (Reason (str-cat ?Name " is an elite client")) (Type partial)))
 )
 
-; creating initial object for sum of market segment discounts
 (defrule market-segment-discounts::create-initial-sum-of-market-segment-discounts
   (MarketSegmentDiscount (Name ?Client) (Type partial))
   (not (MarketSegmentDiscount (Name ?Client) (Type total)))
@@ -965,7 +903,6 @@
   (printout t "market-segment-discounts::create-initial-sum-of-market-segment-discounts: Adding initial element for sum of market segment dicounts for " ?Client crlf)
 )
 
-; summing market segment discounts and for display purposes
 (defrule market-segment-discounts::sum-and-display-market-segment-discounts
   ?MarketSegmentDiscount <- (MarketSegmentDiscount (Name ?Client) (Discount ?Discount) (Reason ?Reason) (Type partial))
   ?ToalMarketSegmentDiscount <- (MarketSegmentDiscount (Name ?Client) (Discount ?TotalDiscount) (Type total))
@@ -974,8 +911,6 @@
   (retract ?MarketSegmentDiscount)
   (printout t "market-segment-discounts::sum-and-display-market-segment-discounts: Market Segment Discount for " ?Client ": " ?Discount "$ Reason: " ?Reason crlf)
 )
-
-; --------- MAIN ---------
 
 (defrule MAIN::summary-not-eligible
   (EligibilityDecision (Name ?Name) (Decision notEligible))
@@ -999,7 +934,7 @@
   ?Insurance <- (Insurance (Client ?Name) (Premium ?FinalPremium & :(eq ?FinalPremium 0)))
 =>
   (printout t crlf "########### SUMMARY ###########" crlf "The client " ?Name " is eligible for insurance" crlf)
-  (printout t " - Base premium: " ?BasePremium "$" crlf)	 
+  (printout t " - Base premium: " ?BasePremium "$" crlf)
   (printout t " - Driver premium: " ?DriverPremium "$" crlf)
   (printout t " - " ?CarName " premium: " ?CarPremium "$" crlf)
   (printout t " - " ?CarName " discount: " ?CarDiscount "%" crlf)
@@ -1027,16 +962,20 @@
   (printout t "-------------------------------------------------------------" crlf)
 )
 
-; ----------------------------------------------
+(defrule car-discounts::sum-and-display-car-discounts
+  ?CarDiscount <- (CarDiscount (Owner ?Driver) (Name ?CarName) (Discount ?Discount) (Reason ?Reason) (Type partial))
+  ?ToalCarDiscount <- (CarDiscount (Owner ?Driver) (Name ?CarName) (Discount ?TotalDiscount) (Type total))
+=>
+  (modify ?ToalCarDiscount (Discount (+ ?TotalDiscount ?Discount)))
+  (retract ?CarDiscount)
+  (printout t "car-discounts::sum-and-display-car-discounts: Car Discount for " ?Driver "'s " ?CarName ": " ?Discount "$ Reason: " ?Reason crlf)
+)
+
 
 (set-static-constraint-checking TRUE)
-;(set-dynamic-constraint-checking TRUE)
 (set-fact-duplication TRUE)
 (reset)
-;(watch facts)
-;(facts)
-;(agenda)
-(focus 
+(focus
   automobile-eligibility-potential-theft
   automobile-eligibility-potential-occupant-injury
   automobile-eligibility-calculation

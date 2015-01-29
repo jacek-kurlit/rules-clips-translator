@@ -9,7 +9,7 @@
 
 (defmodule MAIN (export deftemplate ?ALL) (export defglobal ?ALL) (import car deftemplate a b c) (import deftemplate person ?ALL))
 
-(defglobal car ?*x* = 3 ?*y* = ?*x* ?*z* = (+ ?*x* ?*y*)
+(defglobal globals ?*x* = 3 ?*y* = ?*x* ?*z* = (+ ?*x* ?*y*)
    ?*q* = (create$ a b c))
 
 (deftemplate car

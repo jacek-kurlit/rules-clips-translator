@@ -6,44 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DefglobalConstruct extends Construct {
-    private String moduleName;
-    private List<Assignment> assignments = new ArrayList<>();
+    private String typeref;
+    private List<String> items = new ArrayList<>();
 
     public DefglobalConstruct() {
         super(Const.DEFGLOBAL);
     }
 
-    public class Assignment {
-        private String expression;
-        private String value;
-
-        public Assignment(String expression, String value) {
-            this.expression = expression;
-            this.value = value;
-        }
-
-        public String getExpression() {
-            return expression;
-        }
-
-        public String getValue() {
-            return value;
-        }
+    public void setTyperef(String typeref) {
+        this.typeref = typeref;
     }
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
+    public String getTyperef() {
+        return typeref;
     }
 
-    public String getModuleName() {
-        return moduleName;
+    public List<String> getItems() {
+        return items;
     }
 
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void addAssignment(String expression, String value) {
-        assignments.add(new Assignment(expression, value));
+    public void addItem(String expression) {
+        items.add(expression);
     }
 }

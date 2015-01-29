@@ -175,7 +175,7 @@ public class Supporttype {
          */
         @XmlAccessorType(XmlAccessType.FIELD)
         @XmlType(name = "")
-        public static class Facttripleref {
+            public static class Facttripleref {
 
             @XmlAttribute(name = "facttripleref", required = true)
             @XmlIDREF

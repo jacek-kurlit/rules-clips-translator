@@ -1,13 +1,13 @@
-<global-variables>
-#if($defglobal.moduleName)
-    <module-name>$defglobal.moduleName</module-name>
+#if($variables && !$variables.isEmpty())
+<variables>
+#foreach($variable in $variables)
+    <variable typeref="$variable.typeref">
+        <set>
+#foreach($item in $variable.items)
+            <item>$item</item>
 #end
-    <assignments>
-#foreach( $assignment in $defglobal.assignments )
-        <assignment>
-            <expression>$assignment.expression</expression>
-            <value>$assignment.value</value>
-        </assignment>
+        </set>
+    </variable>
 #end
-    </assignments>
-</global-variables>
+</variables>
+#end

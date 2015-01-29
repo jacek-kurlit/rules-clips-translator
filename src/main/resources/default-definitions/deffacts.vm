@@ -1,18 +1,22 @@
-<knowledge-base>
-    <name>$deffacts.name</name>
-    <facts>
-    #foreach($fact in $deffacts.facts )
-    <fact>
-            <type>$fact.type</type>
-            <fields>
-#foreach( $field in $fact.fields )
-                <field>
-                    <name>$field.name</name>
-                    <value>$field.value</value>
-                </field>
+#if($allFacts && !$allFacts.isEmpty())
+<objects>
+#foreach($fact in $allFacts)
+#set( $name = $fact.name + "_" + $fact.type + "_" +  $foreach.count)
+#set( $id = $fact.id + "_" + $foreach.count)
+    <object name="$name" id="$id" typeref="$fact.type">
+#foreach($field in $fact.fields)
+        <item>
+            <setexpr operator="none">
+                <set>
+#foreach($value in $field.values)
+                    <item>$value</item>
 #end
-            </fields>
-        </fact>
-    #end
-</facts>
-</knowledge-base>
+                </set>
+                <objectref objectref="$fact.type" attributeref="$field.attributeRef"/>
+            </setexpr>
+        </item>
+#end
+    </object>
+#end
+</objects>
+#end

@@ -17,7 +17,7 @@ public class DeffactsConverter implements Converter {
         parentNode.getChildren().forEach(new Consumer<Node>() {
             @Override
             public void accept(Node node) {
-                deffactsConstruct.addFact(convertToFact(node, deffactsConstruct.new Fact()));
+                deffactsConstruct.addFact(convertToFact(node, deffactsConstruct.new Fact(name)));
             }
         });
 
@@ -25,9 +25,11 @@ public class DeffactsConverter implements Converter {
     }
 
     private DeffactsConstruct.Fact convertToFact(Node child, final DeffactsConstruct.Fact fact) {
-        fact.setType(child.getKey());
+        final String type = child.getKey().toLowerCase();
+        fact.setType(type);
 
-        child.getChildren().forEach(n -> fact.addField(n.getKey(), n.getValues().get(0)));
+        fact.setId(fact.getName().toLowerCase() + "_" + fact.getType().toLowerCase());
+        child.getChildren().forEach(n -> fact.addField(type.toLowerCase() + "_" + n.getKey().toLowerCase() , n.getValues(), fact.getType()));
 
         return fact;
     }
