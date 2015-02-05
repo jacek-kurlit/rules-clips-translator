@@ -1,0 +1,17 @@
+#if($allObjects && !$allObjects.isEmpty())
+<objects>
+#foreach($object in $allObjects)
+    <object name="$object.name " id="$object.id" typeref="$object.type">
+#foreach($field in $object.fields)
+        <item>
+            <set>
+#foreach($value in $field.values)
+                <item>$value</item>
+#end
+            </set>
+        </item>
+#end
+    </object>
+#end
+</objects>
+#end

@@ -5,7 +5,4 @@
 #if($deffactsOutput)
 $deffactsOutput
 #end
-#if($defglobalOutput)
-
-#end
 </model>

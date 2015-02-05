@@ -13,15 +13,11 @@ public class DeffactsConstruct extends Construct{
         super(Const.DEFFACTS);
     }
 
-    public class Fact {
+    public static class Fact {
         private String name;
         private String id;
         private String type;
         private List<Field> fields = new ArrayList<>();
-
-        public Fact(String name) {
-            this.name = name;
-        }
 
         public String getType() {
             return type;
@@ -50,9 +46,13 @@ public class DeffactsConstruct extends Construct{
         public void setId(String id) {
             this.id = id;
         }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
-    public class Field {
+    public static class Field {
         private String attributeRef;
         private List<String> values;
         private String type;

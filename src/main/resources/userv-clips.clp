@@ -1,3 +1,13 @@
+(deffacts initial-facts
+  (Client (Name "KKR") (Age 19) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 2) (NoMV 2) (SoTC none))
+  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
+  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
+
+  (Client (Name "KKR") (Age 29) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 0) (NoMV 2) (SoTC none))
+  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
+  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
+)
+
 (defglobal ?*year* = 2013)
 
 (deftemplate Client
@@ -248,16 +258,6 @@
     (type NUMBER)
     (default 0)
   )
-)
-
-(deffacts initial-facts
-  (Client (Name "KKR") (Age 19) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 2) (NoMV 2) (SoTC none))
-  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
-  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
-
-  (Client (Name "KKR") (Age 29) (Gender male) (MaritalStatus married) (UsState NY) (Type elite preffered) (DuI false) (NoA 0) (NoMV 2) (SoTC none))
-  (Car (Owner "KKR") (Name "VW Golf IV") (Convertible false) (Year 2011) (Price 30000) (HasAlarm true) (HasRollBar false) (IsOnHTPA true) (Style compact) (AirBags driver passenger))
-  (Insurance (Client "KKR") (UninsuredDriver false) (MedicalCoverage false))
 )
 
 

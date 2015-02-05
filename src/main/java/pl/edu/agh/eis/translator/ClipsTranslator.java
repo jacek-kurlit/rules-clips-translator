@@ -42,9 +42,8 @@ public class ClipsTranslator {
         initVelocity(settings);
 
         String deftemplateOutput = createOutput(constructs, Const.DEFTEMPLATE, "types");
-        String defglobalOutput = createOutput(constructs, Const.DEFGLOBAL, "variables");
         String deffactsOutput = createDeffactsOutput(constructs);
-        String output = createFinalOutput(deftemplateOutput, defglobalOutput, deffactsOutput);
+        String output = createFinalOutput(deftemplateOutput, deffactsOutput);
 
         printOutput(output, settings);
     }
@@ -68,12 +67,32 @@ public class ClipsTranslator {
 
     private String createDeffactsOutput(List<Construct> constructs) {
         List<Construct> filteredConstructs = constructs.stream().filter(construct -> construct.getConstructName().equals(Const.DEFFACTS)).collect(Collectors.toList());
-        final List<DeffactsConstruct.Fact> allFacts = collectsAllFacts(filteredConstructs);
+        final List<DeffactsConstruct.Fact> allObjects = collectsAllFacts(filteredConstructs);
 
+        String deffactsObjectOutput = createDeffactsObjectOutput(allObjects);
+        String deffactsFactsOutput = createDeffactFactsOutput(allObjects);
+
+        return deffactsObjectOutput + "\n" + deffactsFactsOutput;
+    }
+
+    private String createDeffactsObjectOutput(List<DeffactsConstruct.Fact> allObjects) {
+        VelocityContext context = new VelocityContext();
+        context.put("allObjects", allObjects);
+
+        Template template = Velocity.getTemplate("defobject.vm");
+
+        StringWriter w = new StringWriter();
+
+        template.merge(context, w);
+
+        return w.toString();
+    }
+
+    private String createDeffactFactsOutput(List<DeffactsConstruct.Fact> allFacts) {
         VelocityContext context = new VelocityContext();
         context.put("allFacts", allFacts);
 
-        Template template = Velocity.getTemplate(Const.DEFFACTS + ".vm");
+        Template template = Velocity.getTemplate("deffacts.vm");
 
         StringWriter w = new StringWriter();
 
@@ -101,10 +120,9 @@ public class ClipsTranslator {
         return allFacts;
     }
 
-    private String createFinalOutput(String deftemplateOutput, String defglobalOutput, String deffactsOutput) {
+    private String createFinalOutput(String deftemplateOutput, String deffactsOutput) {
         VelocityContext context = new VelocityContext();
         context.put("deftemplateOutput", deftemplateOutput);
-        context.put("defglobalOutput", defglobalOutput);
         context.put("deffactsOutput", deffactsOutput);
 
         Template template = Velocity.getTemplate("finaloutput.vm");

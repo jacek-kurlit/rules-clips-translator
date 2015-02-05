@@ -1,22 +1,18 @@
 #if($allFacts && !$allFacts.isEmpty())
-<objects>
-#foreach($fact in $allFacts)
-#set( $name = $fact.name + "_" + $fact.type + "_" +  $foreach.count)
-#set( $id = $fact.id + "_" + $foreach.count)
-    <object name="$name" id="$id" typeref="$fact.type">
-#foreach($field in $fact.fields)
-        <item>
-            <setexpr operator="none">
-                <set>
-#foreach($value in $field.values)
-                    <item>$value</item>
+<facts>
+#foreach($object in $allFacts)
+#set($id = "fact_" + $object.name + "_" + $foreach.count)
+    <fact objectref="$object.id" name="$id" id="$id">
+#foreach($field in $object.fields)
+        <facttriple attributeref="$field.attributeRef">
+            <support>
+                <sgroup>
+                    <facttripleref facttripleref="$id"/>
+                </sgroup>
+            </support>
+        </facttriple>
 #end
-                </set>
-                <objectref objectref="$fact.type" attributeref="$field.attributeRef"/>
-            </setexpr>
-        </item>
+    </fact>
 #end
-    </object>
-#end
-</objects>
+</facts>
 #end

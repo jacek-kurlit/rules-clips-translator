@@ -26,5 +26,8 @@
 #end
     </type>
 #end
+    <type id="global_variable" name="global_variable">
+        <attribute id="global_variable_value" name="global_variable_value" basetype="String" type="simple"/>
+    </type>
 </types>
 #end
